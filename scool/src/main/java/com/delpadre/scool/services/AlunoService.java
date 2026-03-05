@@ -13,17 +13,38 @@ public class AlunoService {
     @Autowired
     private AlunoRepository alunoRepository;
 
+    // Criar aluno
     public AlunoModel criarAluno(AlunoModel alunoModel) {
-        return alunoRepository.save(AlunoModel);
+        return alunoRepository.save(alunoModel);
     }
 
+    // Listar todos
     public List<AlunoModel> findAll() {
         return alunoRepository.findAll();
     }
 
-    public void deletarAluno(Long id) {
-        alunoRepository.deleteById(id);
+    // Buscar por ID
+    public AlunoModel buscarAlunoPorId(Long id) {
+        return alunoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado com ID: " + id));
     }
 
+    // Atualizar aluno
+    public AlunoModel atualizarAluno(Long id, AlunoModel alunoModel) {
+        AlunoModel model = alunoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado com ID: " + id));
 
+        model.setNome(alunoModel.getNome());
+        model.setMatricula(alunoModel.getMatricula());
+
+        return alunoRepository.save(model);
+    }
+
+    // Deletar aluno
+    public void deletarAluno(Long id) {
+        if (!alunoRepository.existsById(id)) {
+            throw new RuntimeException("Aluno não encontrado com ID: " + id);
+        }
+        alunoRepository.deleteById(id);
+    }
 }

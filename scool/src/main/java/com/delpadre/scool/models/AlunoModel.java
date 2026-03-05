@@ -1,5 +1,6 @@
 package com.delpadre.scool.models;
 
+import com.delpadre.scool.enums.AlunoEnum;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,8 +13,13 @@ public class AlunoModel {
     private String nome;
     private String matricula;
     private String endereco;
+    private AlunoEnum status;
 
     public AlunoModel() {
+    }
+
+    public AlunoEnum getStatus() {
+        return status;
     }
 
     public Long getId() {
